@@ -4,36 +4,118 @@ import random
 import math
 
 def drawRectangle(img):
-    # point1 = (int(10*random.random()), int(10*random.random()))
-    # point2 = (int(90 + 10*random.random()), int(90 + 10*random.random()))
-    # NOTE: POINT: (x,y)
+    # Off-White, Black, Grey, Red
+    colors = [(233, 233, 233), (133, 133, 133), (35, 35, 200),(255,255,255)]
     point1 = (20,20)
     point2 = (280,280)
-    white_color = (255,255,255)
+    random_color =  colors[3]
     # NOTE: Draws a rectangle
-    cv2.rectangle(img, point1, point2, white_color, -1);
+    cv2.rectangle(img, point1, point2, random_color, -1);
 
-def drawCircle(img):
-    white_color = (255,255,255)
-    cv2.circle(img,(150,150),100,white_color,-1)
-
-def drawSemiCircleConcaveUp(img):
-    white_color = (255,255,255)
-    center = (150,90)
-    axes = (125,125)
+def drawSemiCircle(img):
+    radius=130
+    axes = (radius,radius)
     angle=0;
     startAngle=0;
     endAngle=180;
-    cv2.ellipse(img,center,axes,angle,startAngle,endAngle, white_color,-1);
+    center=(150,90)
+    color=255
+    cv2.ellipse(img, center, axes, angle, startAngle, endAngle, color, -1)
 
-def drawSemiCircleConcaveDown(img):
-    white_color = (255,255,255)
-    center = (150,210)
-    axes = (125,125)
-    angle = 0
-    startAngle = 180
-    endAngle = 360
-    cv2.ellipse(img,center,axes,angle,startAngle,endAngle,white_color,-1)
+def drawQuarterCircle(img):
+    radius=130
+    axes = (radius,radius)
+    angle=0;
+    startAngle=0;
+    endAngle=90;
+    center=(90,90)
+    color=255
+    cv2.ellipse(img, center, axes, angle, startAngle, endAngle, color, -1)
+
+def drawTriangle(img):
+    triangle_center = [150, 150];
+    height = 150;
+    point_1 = [triangle_center[0], triangle_center[1] - height/2]
+    point_2 = [triangle_center[0] + height/2, triangle_center[1] + height/2]
+    point_3 = [triangle_center[0] - height/2, triangle_center[1] + height/2]
+    pts = np.array([point_1, point_2, point_3], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], (255, 255, 255))
+
+def drawTrapezoid(img):
+    trapezoid_center = [150, 150];
+    b1 = 150;
+    b2 = 250;
+    height = 100;
+    point_1 = [trapezoid_center[0] - b1/2, trapezoid_center[1] - height/2]
+    point_2 = [trapezoid_center[0] + b1/2, trapezoid_center[1] - height/2]
+    point_3 = [trapezoid_center[0] - b2/2, trapezoid_center[1] + height/2]
+    point_4 = [trapezoid_center[0] + b2/2, trapezoid_center[1] + height/2]
+    pts = np.array([point_1, point_2, point_4, point_3], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+def drawPentagon(img):
+    pentagon_center = [150, 150];
+    axis = 100;
+    points = [];
+    for i in range(0, 5):
+        points.append([pentagon_center[0] + axis * math.cos(72 * i * 3.14/180), pentagon_center[1] + axis * math.sin(72 * i * 3.14/180)]);
+    pts = np.array([points[0], points[1], points[2], points[3], points[4]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+
+def drawHexagon(img):
+    pentagon_center = [150, 150];
+    axis = 100;
+    points = [];
+    for i in range(0, 6):
+        points.append([pentagon_center[0] + axis * math.cos(60 * i * 3.14/180), pentagon_center[1] + axis * math.sin(60 * i * 3.14/180)]);
+    pts = np.array([points[0], points[1], points[2], points[3], points[4], points[5]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+
+def drawHeptagon(img):
+    pentagon_center = [150, 150];
+    axis = 100;
+    points = [];
+    for i in range(0, 7):
+        points.append([pentagon_center[0] + axis * math.cos(51.4 * i * 3.14/180), pentagon_center[1] + axis * math.sin(51.4 * i * 3.14/180)]);
+    pts = np.array([points[0], points[1], points[2], points[3], points[4], points[5], points[6]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+def drawOctagon(img):
+    pentagon_center = [150, 150];
+    axis = 100;
+    points = [];
+    for i in range(0, 8):
+        points.append([pentagon_center[0] + axis * math.cos(45 * i * 3.14/180), pentagon_center[1] + axis * math.sin(45 * i * 3.14/180)]);
+    pts = np.array([points[0], points[1], points[2], points[3], points[4], points[5], points[6], points[7]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+def drawStar(img):
+    pentagon_center = [150, 150];
+    axis = 70;
+    points = [];
+    for i in range(0, 5):
+        points.append([pentagon_center[0] + axis * math.cos((90 + 72 * -i) * 3.14/180), pentagon_center[1] + axis * math.sin((90 + 72 * -i) * 3.14/180)]);
+    points2 = [];
+    axis = 150;
+    for i in range(0, 5):
+        points2.append([pentagon_center[0] + axis * math.cos((-90 + 72 * -i) * 3.14/180), pentagon_center[1] + axis * math.sin((-90 + 72 * -i) * 3.14/180)]);
+    pts = np.array([points[0], points2[3], points[1], points2[4], points[2], points2[0], points[3], points2[1], points[4], points2[2]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    cv2.fillPoly(img,[pts], 255)
+
+def drawCircle(img):
+    # Off-White, Black, Grey, Red
+    colors = [(233, 233, 233), (133, 133, 133), (35, 35, 200),(255,255,255)]
+    random_color = colors[3]
+    cv2.circle(img,(150,150),100,random_color,-1)
 
 
 def padCharImg(data):
@@ -104,7 +186,7 @@ data = np.load("alphanum-hasy-data-X.npy")
 
 # Creates a black image array (height,width,rgb)
 img = np.zeros((300, 300, 3), np.uint8);
-drawSemiCircleConcaveDown(img);
+drawTriangle(img);
 
 # Overlays the "text" image over the "visual" image + modifies the image in orientation etc.
 dst,secDST = overlayChar(data, img);
