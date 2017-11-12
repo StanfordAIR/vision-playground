@@ -28,4 +28,3 @@ drawRectangle(img);
 dst = overlayChar(data, img);
 cv2.imshow("Test", dst);
 cv2.waitKey(0);
-
