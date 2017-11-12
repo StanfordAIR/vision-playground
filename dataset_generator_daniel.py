@@ -35,6 +35,7 @@ def drawSemiCircleConcaveDown(img):
     endAngle = 360
     cv2.ellipse(img,center,axes,angle,startAngle,endAngle,white_color,-1)
 
+
 def padCharImg(data):
     padded_data = np.zeros((300,300,3),np.uint8)
     padded_data[100:200,100:200,0:3] = data
@@ -48,6 +49,8 @@ def pixelDistFromBlack(pixel1):
     return math.sqrt(r_diff+g_diff+b_diff)
 
 # Function is passed a blank white shape img + a black-on-white alphanum img
+# NOTE: this function can pass an img background with black color (which wouldn't contrast with the already black background
+#       surrounding the shape)
 def colorShapeIMG(img,new_dst):
     WHITE_RGB = [255,255,255]
     # White, Black, Gray, Red, Blue, Green, Yellow, Purple, Brown, Orange
