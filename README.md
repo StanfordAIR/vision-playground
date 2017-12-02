@@ -1,1 +1,1 @@
-Playground for StanfordAIR Computer Vision
+# tesseract-auvsi
