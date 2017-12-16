@@ -6,6 +6,8 @@ import cv2
 import ocr
 from argparse import Namespace
 import time
+import threading
+
 
 
 def show_webcam(mirror=True):
@@ -25,6 +27,9 @@ def show_webcam(mirror=True):
 			break  # esc to quit
 	cv2.destroyAllWindows()
 
+def thread():
+	threading.Thread(target=show_webcam(mirror=True)).start()
+
 def main():
 	# construct the argument parse and parse the arguments
 	# ap = argparse.ArgumentParser()
@@ -33,9 +38,7 @@ def main():
 	# ap.add_argument("-p", "--preprocess", type=str, default="thresh",
 	# 	help="type of preprocessing to be done")
 	# args = vars(ap.parse_args())
-	
-
-	show_webcam(mirror=True)
+	thread()
 
 if __name__ == '__main__':
 	main()
