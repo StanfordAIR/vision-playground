@@ -23,6 +23,10 @@ public class JsonDirectoryConfigurator {
 	String datasetPath = "/Users/joshpayne1/downloads/dataset/";	
 	// json string generated for dataset
 	
+	int i = 0;
+	
+	final int TRAIN_VALIDATE_RATIO = 4;
+	
 	String str = "";
 	try {
 		str = readFile(datasetPath+"labels.json",Charset.forName("UTF-8"));
@@ -36,51 +40,114 @@ public class JsonDirectoryConfigurator {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	File trainDir = new File(newDirPath+"train/");
+	if (!trainDir.exists()) {
+	    try {
+	        trainDir.mkdir();
+	    } catch (SecurityException se) {
+	    	
+	    }
+	}
+	File validateDir = new File(newDirPath+"validate/");
+	if (!validateDir.exists()) {
+	    try {
+	        validateDir.mkdir();
+	    } catch (SecurityException se) {
+	    	
+	    }
+	}
 
 	Iterator<?> keys = obj.keys();
 	while (keys.hasNext()) {
+		i++;
 		String key = (String)keys.next();
-		try {
-			Object x = obj.getJSONObject(key);
-			String n = x.toString();
-			JSONObject subObj = null;
+		if (i%TRAIN_VALIDATE_RATIO!=0) {
 			try {
-				subObj = new JSONObject(n);
+				Object x = obj.getJSONObject(key);
+				String n = x.toString();
+				JSONObject subObj = null;
+				try {
+					subObj = new JSONObject(n);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				character = subObj.getString(category);
+				File theDir = new File(newDirPath+"train/"+character);
+				if (!theDir.exists()) {
+				    try{
+				        theDir.mkdir();
+				        // to move (save space), use Files.move
+				        
+				        	Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+"train/"+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
+				    
+				    } 
+				    catch(SecurityException se){
+				        //handle it
+				    } catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}        
+				} else {
+					try {
+						File check = new File(newDirPath+"train/"+character+"/"+key);
+			        	if (!check.exists()) Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+"train/"+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
+					} catch(SecurityException se) {
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			character = subObj.getString(category);
-			File theDir = new File(newDirPath+character);
-			if (!theDir.exists()) {
-			    try{
-			        theDir.mkdir();
-			        // to move (save space), use Files.move
-			        
-			        	Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
-			    
-			    } 
-			    catch(SecurityException se){
-			        //handle it
-			    } catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}        
-			} else {
+		}
+		else {
+			try {
+				Object x = obj.getJSONObject(key);
+				String n = x.toString();
+				JSONObject subObj = null;
 				try {
-					File check = new File(newDirPath+character+"/"+key);
-		        	if (!check.exists()) Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
-				} catch(SecurityException se) {
-					
-				} catch (IOException e) {
+					subObj = new JSONObject(n);
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				character = subObj.getString(category);
+				File theDir = new File(newDirPath+"validate/"+character);
+				if (!theDir.exists()) {
+				    try{
+				        theDir.mkdir();
+				        // to move (save space), use Files.move
+				        
+				        	Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+"validate/"+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
+				    
+				    } 
+				    catch(SecurityException se){
+				        //handle it
+				    } catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}        
+				} else {
+					try {
+						File check = new File(newDirPath+"validate/"+character+"/"+key);
+			        	if (!check.exists()) Files.copy(Paths.get(datasetPath+key), Paths.get(newDirPath+"validate/"+character+"/"+key), StandardCopyOption.REPLACE_EXISTING);
+					} catch(SecurityException se) {
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	System.out.println("Done.");
