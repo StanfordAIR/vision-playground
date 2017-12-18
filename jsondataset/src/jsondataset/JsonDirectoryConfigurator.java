@@ -31,13 +31,11 @@ public class JsonDirectoryConfigurator {
 	try {
 		str = readFile(datasetPath+"labels.json",Charset.forName("UTF-8"));
 	} catch (IOException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	try {
 		obj = new JSONObject(str);
 	} catch (JSONException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	File trainDir = new File(newDirPath+"train/");
@@ -83,9 +81,8 @@ public class JsonDirectoryConfigurator {
 				    
 				    } 
 				    catch(SecurityException se){
-				        //handle it
+				      
 				    } catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}        
 				} else {
@@ -95,13 +92,11 @@ public class JsonDirectoryConfigurator {
 					} catch(SecurityException se) {
 						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -113,7 +108,6 @@ public class JsonDirectoryConfigurator {
 				try {
 					subObj = new JSONObject(n);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				character = subObj.getString(category);
@@ -127,9 +121,8 @@ public class JsonDirectoryConfigurator {
 				    
 				    } 
 				    catch(SecurityException se){
-				        //handle it
+				    	
 				    } catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}        
 				} else {
@@ -139,13 +132,11 @@ public class JsonDirectoryConfigurator {
 					} catch(SecurityException se) {
 						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
