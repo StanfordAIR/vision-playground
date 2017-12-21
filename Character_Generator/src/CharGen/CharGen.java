@@ -59,9 +59,9 @@ public class CharGen {
 				// Rotation information
 				int randomNumR = 0;
 				if (text.equals("W")||text.equals("M")||text.equals("6")||text.equals("9")) {
-					randomNumR = ThreadLocalRandom.current().nextInt(0, 360);
-				} else {
 					randomNumR = ThreadLocalRandom.current().nextInt(-90, 91);
+				} else {
+					randomNumR = ThreadLocalRandom.current().nextInt(0, 360);
 				}
 				double rotationRequired = Math.toRadians(randomNumR);
 				double locationX = img.getWidth() / 2;
