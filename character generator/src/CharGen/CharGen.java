@@ -18,18 +18,26 @@ public class CharGen {
 	public static void main(String[] args) throws IOException {
 		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 		char[] charArray = chars.toCharArray();
-
-		int howManyInstances = 500;
+		int ratio = 4;
+		int howManyInstances = 4000;
 		// Replace with your own
 		String newDirPath = "/Users/joshpayne1/desktop/chars/";
+		File trainDir = new File(newDirPath+"train");
+		File validateDir = new File(newDirPath+"validate");
+		if (!trainDir.exists()) {
+			trainDir.mkdir();
+		}
+		if (!validateDir.exists()) {
+			validateDir.mkdir();
+		}
 		for (char ch : charArray) {
 			String text = Character.toString(ch);
-			for (int m = 0; m <= howManyInstances; m++) {
+			for (int m = 0; m <= howManyInstances; m+=0) {
 				BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D g2d = img.createGraphics();
 				Font font;
 				int bold = ThreadLocalRandom.current().nextInt(0,2);
-				int size = ThreadLocalRandom.current().nextInt(50,101);
+				int size = ThreadLocalRandom.current().nextInt(8,17);
 				if (bold == 0) {
 					font = new Font("Arial", Font.BOLD, size);
 				} else font = new Font("Arial", Font.PLAIN, size);
@@ -40,7 +48,7 @@ public class CharGen {
 
 				g2d.dispose();
 
-				img = new BufferedImage(width+200, height+200, BufferedImage.TYPE_INT_ARGB);
+				img = new BufferedImage(width+32, height+32, BufferedImage.TYPE_INT_ARGB);
 				g2d = img.createGraphics();
 				g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -68,8 +76,8 @@ public class CharGen {
 				double locationY = img.getHeight() / 2;
 				//        
 				AffineTransform tl = new AffineTransform();
-				int randomNumW = ThreadLocalRandom.current().nextInt(50, 150);
-				int randomNumH = ThreadLocalRandom.current().nextInt(50, 150);
+				int randomNumW = ThreadLocalRandom.current().nextInt(8, 17);
+				int randomNumH = ThreadLocalRandom.current().nextInt(8, 17);
 				tl.setToTranslation(randomNumW, randomNumH);
 				AffineTransformOp optl = new AffineTransformOp(tl, AffineTransformOp.TYPE_BILINEAR);
 
@@ -80,19 +88,35 @@ public class CharGen {
 				AffineTransformOp oprt = new AffineTransformOp(rt, AffineTransformOp.TYPE_BILINEAR);
 
 				img = oprt.filter(img, null);
-				
-				if (img.getWidth() >= 300 && img.getHeight() >= 300) {
-					BufferedImage dest = img.getSubimage(0, 0, 300, 300);
-					File theDir = new File(newDirPath+ch);
-					if (!theDir.exists()) {
-					    theDir.mkdir();
-						try {
-							ImageIO.write(dest, "png", new File(newDirPath+text+"/"+m+".png"));
-						} catch (IOException ex) {
+
+				if (img.getWidth() >= 48 && img.getHeight() >= 48) {
+					BufferedImage dest = img.getSubimage(0, 0, 48, 48);
+					m++;
+					if (m % ratio == 1) {
+						File charDir = new File(newDirPath+"validate/"+ch);
+						if (!charDir.exists()) {
+							charDir.mkdir();
+							try {
+								ImageIO.write(dest, "png", new File(newDirPath+"validate/"+text+"/"+m+".png"));
+							} catch (IOException ex) {
 								ex.printStackTrace();
+							}
+						} else {
+							ImageIO.write(dest, "png", new File(newDirPath+"validate/"+text+"/"+m+".png"));
 						}
+
 					} else {
-						ImageIO.write(dest, "png", new File(newDirPath+text+"/"+m+".png"));
+						File charDir = new File(newDirPath+"train/"+ch);
+						if (!charDir.exists()) {
+							charDir.mkdir();
+							try {
+								ImageIO.write(dest, "png", new File(newDirPath+"train/"+text+"/"+m+".png"));
+							} catch (IOException ex) {
+								ex.printStackTrace();
+							}
+						} else {
+							ImageIO.write(dest, "png", new File(newDirPath+"train/"+text+"/"+m+".png"));
+						}
 					}
 				}
 			}

@@ -11,7 +11,7 @@ import sys
 import numpy
 
 #number of classes is 26 (letters)
-nClass=26
+nClass=36
 
 #simple model (set to True) or convolutional neural network (set to False)
 simpleModel=False
@@ -61,7 +61,7 @@ def getImage(filename):
     # Decode the jpeg
     with tf.name_scope('decode_jpeg',[image_buffer], None):
         # decode
-        image = tf.image.decode_jpeg(image_buffer, channels=3)
+        image = tf.image.decode_jpeg(image_buffer, channels=1)
     
         # and convert to single precision data type
         image = tf.image.convert_image_dtype(image, dtype=tf.float32)
@@ -208,6 +208,7 @@ else:
 	# softmax gives probability distribution across all classes
 	# this is not run until later
 	y=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+	print "1"
 
 # measure of error of our model
 # this needs to be minimised by adjusting W and b
@@ -230,9 +231,8 @@ coord = tf.train.Coordinator()
 threads = tf.train.start_queue_runners(sess=sess,coord=coord)
 
 # start training
-nSteps=1000
+nSteps=10000
 for i in range(nSteps):
-
 	batch_xs, batch_ys = sess.run([imageBatch, labelBatch])
 
 	# run the training step with feed of images
