@@ -1,8 +1,6 @@
 '''
 
-usage: python build_image_data.py --train_directory=./train --output_directory=./  \
---validation_directory=./validate --labels_file=mylabels.txt   \--train_shards=1 
---validation_shards=1 --num_threads=1
+usage: python build_image_data.py
 
 '''
 
@@ -10,7 +8,7 @@ import tensorflow as tf
 import sys
 import numpy
 
-#number of classes is 26 (letters)
+#number of classes is 36 (letters+numbers)
 nClass=36
 
 #simple model (set to True) or convolutional neural network (set to False)
@@ -231,7 +229,7 @@ coord = tf.train.Coordinator()
 threads = tf.train.start_queue_runners(sess=sess,coord=coord)
 
 # start training
-nSteps=10000
+nSteps=1000
 for i in range(nSteps):
 	batch_xs, batch_ys = sess.run([imageBatch, labelBatch])
 
