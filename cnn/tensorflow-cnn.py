@@ -1,8 +1,6 @@
 '''
 
-usage: python build_image_data.py --train_directory=./train --output_directory=./  \
---validation_directory=./validate --labels_file=mylabels.txt   \--train_shards=1 
---validation_shards=1 --num_threads=1
+usage: python build_image_data.py
 
 '''
 
@@ -10,8 +8,8 @@ import tensorflow as tf
 import sys
 import numpy
 
-#number of classes is 26 (letters)
-nClass=26
+#number of classes is 36 (letters+numbers)
+nClass=36
 
 #simple model (set to True) or convolutional neural network (set to False)
 simpleModel=False
@@ -61,7 +59,7 @@ def getImage(filename):
     # Decode the jpeg
     with tf.name_scope('decode_jpeg',[image_buffer], None):
         # decode
-        image = tf.image.decode_jpeg(image_buffer, channels=3)
+        image = tf.image.decode_jpeg(image_buffer, channels=1)
     
         # and convert to single precision data type
         image = tf.image.convert_image_dtype(image, dtype=tf.float32)
@@ -208,6 +206,7 @@ else:
 	# softmax gives probability distribution across all classes
 	# this is not run until later
 	y=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+	print "1"
 
 # measure of error of our model
 # this needs to be minimised by adjusting W and b
@@ -232,7 +231,6 @@ threads = tf.train.start_queue_runners(sess=sess,coord=coord)
 # start training
 nSteps=1000
 for i in range(nSteps):
-
 	batch_xs, batch_ys = sess.run([imageBatch, labelBatch])
 
 	# run the training step with feed of images
