@@ -35,7 +35,7 @@ MODEL_DIRECTORY = "model/model.ckpt"
 LOGS_DIRECTORY = "logs/train"
 
 # Params for Train
-training_epochs = 3
+training_epochs = 2
 TRAIN_BATCH_SIZE = 100
 display_step = 100
 validation_step = 500
@@ -74,12 +74,6 @@ def train():
         # Optimizer: set up a variable that's incremented once per batch and
         # controls the learning rate decay.
         batch = tf.Variable(0)
-        print("y: ")
-        print(y)
-        print("y_: ")
-        print(y_)
-        print ("batch: ")
-        print(batch)
         learning_rate = tf.train.exponential_decay(
             1e-4,  # Base learning rate.
             batch * batch_size,  # Current index into the dataset.
@@ -87,12 +81,6 @@ def train():
             0.95,  # Decay rate.
             staircase=True)
         # Use simple momentum for the optimization.
-        print("learning rate: ")
-        print(learning_rate)
-        print("loss: ")
-        print(loss)
-        print("batch: ")
-        print(batch)
         train_step = tf.train.AdamOptimizer(learning_rate).minimize(loss,global_step=batch)
 
     # Create a summary to monitor learning_rate tensor

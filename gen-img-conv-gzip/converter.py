@@ -1,7 +1,8 @@
 # this converts a set of grayscale, 28x28 images to a set of files with the same format as the mnist dataset.
 # The rationale is to use the powerful CNNs built specifically for mnist digit recognition.
 # This will be good for character recognition and might be good for shapes as well.
-# usage: $ python conv-img.py
+
+# usage: $ python converter.py
 
 import os
 from PIL import Image
