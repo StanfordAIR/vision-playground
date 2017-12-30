@@ -18,6 +18,14 @@ Note - don't worry about the slim.losses.softmax_cross_entropy warning
 
 '''
 
+'''
+
+Architecture:
+
+input -> convolutional (5x5) -> pooling (2x2) -> convolutional (5x5) -> pooling (2x2) -> flattening -> fully connected layer -> dropout -> output
+
+'''
+
 # usage: $ python cnn-train.py
 
 from __future__ import absolute_import
