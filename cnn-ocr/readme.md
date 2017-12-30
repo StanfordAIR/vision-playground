@@ -6,6 +6,6 @@ current parameters.
 
 If you want to see something really cool, enter the command: 
 
-``` $ tensorboard --logdir="/model" ```
+``` $ tensorboard --logdir="model" ```
 
 once you have a trained model!
