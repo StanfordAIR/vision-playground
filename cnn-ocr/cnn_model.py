@@ -2,17 +2,21 @@
 
 # Used as an object to set up the neural network.
 
-''' 
 
-~ parameters ~
+# ~ parameters ~
 
-x - tf.reshape(inputs, [-1, n1, n2, 1]) - n1 and n2 are the image dimensions. 
-(This case uses 28x28 since MNIST uses that and we don't know what kind of resolution we'll have yet.)
+# x - tf.reshape(inputs, [-1, n1, n2, 1]) - n1 and n2 are the image dimensions. 
+# (This case uses 28x28 since MNIST uses that and we don't know what kind of resolution we'll have yet.)
 
-conv2d - these describe the layer and number of neurons that are in the convilutional hidden layers.
-max_pool2d - these describe how the features are pooled. (for [2, 2], uses 2px*2px.)
+# conv2d - these describe the layer and number of neurons that are in the convilutional hidden layers.
+# max_pool2d - these describe how the features are pooled. (for [2, 2], uses 2px*2px.)
 
-'''
+
+
+# Architecture:
+
+# input -> convolutional (5x5) -> pooling (2x2) -> convolutional (5x5) -> pooling (2x2) -> flattening -> fully connected layer -> dropout -> output
+
 
 # Use this CNN as cnn_model.CNN.
 

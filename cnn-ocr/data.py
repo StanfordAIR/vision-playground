@@ -1,16 +1,15 @@
 # Based off work done by hualsuklee - https://github.com/hwalsuklee/tensorflow-mnist-cnn
 
-'''
-~ parameters ~
 
-IMAGE_SIZE - how long/wide the image is, in pixels
-NUM_LABELS - number of classes (36 for letters + numbers, 35 since 0/O are the same here)
-VALIDATION_SIZE - subset of the train set (Thomas the Train memes, anyone?) - how many images it uses to check itself as it trains
+# ~ parameters ~
 
-train_data, train_labels - how many images in the entire training dataset gzip file
-test_data, test_labels - how many images in the entire test dataset gzip file
+# IMAGE_SIZE - how long/wide the image is, in pixels
+# NUM_LABELS - number of classes (36 for letters + numbers, 35 since 0/O are the same here)
+# VALIDATION_SIZE - subset of the train set (Thomas the Train memes, anyone?) - how many images it uses to check itself as it trains
 
-'''
+# train_data, train_labels - how many images in the entire training dataset gzip file
+# test_data, test_labels - how many images in the entire test dataset gzip file
+
 
 # import as data
 
