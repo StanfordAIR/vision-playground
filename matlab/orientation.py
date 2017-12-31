@@ -40,23 +40,29 @@ def get_bounding_rectangle(img):
 		if (flag==True):
 			max_x = i;
 			break;
-	print min_x
-	print min_y
-	print max_x
-	print max_y
+	return (min_x+3, min_y+3, max_x-3, max_y-3)
 
-img = cv.imread('../dataset/9776.png')
+img = cv.imread('../dataset/1075.png')
 mask = np.zeros(img.shape[:2],np.uint8)
 bgdModel = np.zeros((1,65),np.float64)
 fgdModel = np.zeros((1,65),np.float64)
 rect = (0, 0, 49, 49)
 cv.grabCut(img,mask,rect,bgdModel,fgdModel,5,cv.GC_INIT_WITH_RECT)
 mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
+img_copy = img*mask2[:,:,np.newaxis]
+img_copy = cv.cvtColor(img_copy, cv.COLOR_BGR2GRAY)
+mask3 = img_copy > 10;
+new_rect = get_bounding_rectangle(mask3)
+
+bgdModel = np.zeros((1,65),np.float64)
+fgdModel = np.zeros((1,65),np.float64)
+cv.grabCut(img,mask,new_rect,bgdModel,fgdModel,5,cv.GC_INIT_WITH_RECT)
+
+mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
 img = img*mask2[:,:,np.newaxis]
 img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-mask3 = img > 10;
-
-y, x = np.nonzero(mask3)
+mask4 = img>10;
+y, x = np.nonzero(mask4)
 x = x - np.mean(x)
 y = y - np.mean(y)
 coords = np.vstack([x, y])
@@ -66,8 +72,7 @@ sort_indices = np.argsort(evals)[::-1]
 evec1, evec2 = evecs[:, sort_indices]
 x_v1, y_v1 = evec1  # Eigenvector with largest eigenvalue
 x_v2, y_v2 = evec2
-get_bounding_rectangle(mask3)
-print mask3.shape
+new_rect = get_bounding_rectangle(mask4)
 scale = 20
 plt.plot([x_v1*-scale*2, x_v1*scale*2],
          [y_v1*-scale*2, y_v1*scale*2], color='red')
