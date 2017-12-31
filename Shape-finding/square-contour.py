@@ -1,8 +1,10 @@
-# Experimenting with contours for shape finding rather than SURF or Machine Learning. 
-# This might be less computationally expensive and even more robust.
-# This one finds squares for now.
+# Experimenting with contours for shape finding to possibly augment to SURF or machine learning. 
+# This is sort of like a general template matching alg.
+# It might be less computationally expensive than SURF/CNNs. This one finds squares for now.
 
-# import the necessary packages
+# Usage: $ python square-contour.py
+
+
 import argparse
 import cv2
 
