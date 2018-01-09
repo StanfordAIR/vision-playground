@@ -1,0 +1,1 @@
+Usage: ``` $ python detect_color.py -i flower.png```
