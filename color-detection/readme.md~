@@ -1,1 +1,1 @@
-Usage: ``` $ python detect_color.py -i flower.png```
+Usage: ``` $ python detect_color.py --image flower.png```
