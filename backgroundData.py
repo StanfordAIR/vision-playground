@@ -1,29 +1,15 @@
 import cv2
-import numpy as np
-import sys
-from matplotlib import pyplot as plt
+from scipy import ndimage
 
-def sliceBackground(original):
-    pixels = 50
-    height, width, channels = original.shape
-    sliceList = []
-    for i in range(width-pixels):
-        for j in range(height-pixels):
-            slicedImg = original[i:i+pixels, j:j+pixels]
-            sliceList.append(slicedImg)
-            for rot in range(3):
-                M = cv2.getRotationMatrix2D((pixels/2,pixels/2),90,1)
-                slicedImg = cv2.warpAffine(slicedImg,M,(pixels,pixels))
-                sliceList.append(slicedImg)
-
-    return sliceList
-
-def saveImageFromList(backgroundList):
-    num = len(backgroundList)
-    for i in range(num):
-        cv2.imwrite("background" + str(i) + ".png", backgroundList[i])
-
-
-img = cv2.imread("test.png")
-backgrounds = sliceBackground(img)
-saveImageFromList(backgrounds)
+img = cv2.imread("./test.png")
+for r in range(4):
+    rotated = ndimage.rotate(img, r*90)
+    height, width, channels = img.shape 
+    xScale = int((width)/10) # don't recalculate in for loop in production
+    yScale = int((height)/10)
+    for x in range(xScale):
+        for y in range(yScale):
+            crop_img = img[10*y:10*y+50, 10*x:10*x+50]
+            h,w,channels=crop_img.shape
+            if h==50 and w==50:
+                cv2.imwrite("img1/background" + "r" + str(r)+"x"+str(x)+"y"+str(y) + ".png", crop_img)
