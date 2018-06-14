@@ -1,15 +1,37 @@
 import numpy as np
+import math
 
 # REMEMBER THIS IS IN METERS <3
 
 RADIUS_OF_EARTH = 6371e3
 DEGREES = 360
+FLOOR_ELLPISOID_ALT = 0
 
+def pixelToDistance(pixelVals, altitude):
+    '''convert x, y pixel of image bounding box to distance of object relative
+    to plane, returns tuple of obj_xy for use in to_global_system
+    altitude needs to be in meters
+    '''
+    altitude = altitude - FLOOR_ELLPISOID_ALT
+    width = 3840. #in pixels of image
+    height = 2160.
+    pixelX, pixelY = pixelVals #pixel x,y of object of interest
+    angleHorizontal = np.deg2rad(23.7/2.) #angle of lens
+    angleVertical = np.deg2rad(18./2.)
+    centerX = width/2. #in pixels
+    centerY = height/2.
+    distMetersX = altitude * math.tan(angleHorizontal)
+    distMetersY = altitude * math.tan(angleVertical)
+    pixToMeterX = distMetersX/centerX #1 pixel = ? meters
+    pixToMeterY = distMetersY/centerY
+    distX = (pixelX - centerX) * pixToMeterX
+    distY = (pixelY - centerY) * pixToMeterY
+    return (distX, distY)
 
 def to_global_system(plane_latlong, obj_xy, plane_orientation):
     '''Convert plane latlong, plane_orientation, and object_xy to latlong.
 
-    This function assumes object_xy is a np.array of length 2 containing the 
+    This function assumes object_xy is a np.array of length 2 containing the
     distance (x,y) pair, in meters, of the object relative to the plane
     (in the frame of the plane's point of view).
 
@@ -48,3 +70,5 @@ def rot_mat(theta):
         [np.cos(theta), -np.sin(theta)],
         [np.sin(theta), np.cos(theta)]
     ])
+
+pixelToDistance((2, 5), 10)
